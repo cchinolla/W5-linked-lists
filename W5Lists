@@ -1,0 +1,213 @@
+class Node(object):
+
+    def __init__(self, data, next=None, count=1,):
+        self.data = data
+        self.count = count
+        self.next = next
+
+
+    def get_data(self):
+        return self.data
+
+    def get_next(self):
+        return self.next
+
+    def set_next(self, new_next):
+        self.next = new_next
+
+
+class LinkedLists:
+
+    def __init__(self, head=None):
+        self.head = head
+
+    def isEmpty(self):
+        # if list is empty return none
+        return self.head == None
+
+    #method to get length of list
+    def size(self):
+        count = 0
+        current_node = self.head
+        while current_node is not None:
+            # increase counter by one
+            count = count + 1
+            # jump to the linked node
+            current_node = current_node.next
+        return count
+
+    #add node to the end of the list
+    def addLast(self, new_data):
+        new_node = Node(new_data)
+        if self.head is None:
+            self.head = new_node
+            return
+        last = self.head
+        while (last.next):
+            last = last.next
+        last.next = new_node
+
+    #add node in the beginning of the list
+    def addFirst(self,new_data):
+        self.head = Node(new_data,self.head)
+
+    def add(self, index, data):
+
+        if index <= 0:
+           self.head = Node(data,self.head)
+           return
+        i = 0
+        x  = self.head
+        temp = Node(data)
+        while i != index:
+            if(x.next is not None):
+                i = i+1
+                x=x.next
+            else:
+                break
+            y= x.next
+            x.next= temp
+            temp.next = y
+
+
+    #print list method
+    def printl(self):
+        curr = self.head
+        while curr is not None:
+            print(curr.data)
+            curr = curr.next
+
+
+    def delete(self, data):
+        current = self.head
+        previous = None
+        found = False
+        while current and found is False:
+            if current.get_data() == data:
+                found = True
+            else:
+                previous = current
+                current = current.get_next()
+        if current is None:
+            raise ValueError("Data not in list")
+        if previous is None:
+            self.head = current.get_next()
+        else:
+            previous.set_next(current.get_next())
+
+    def clear(self):
+            self.head = None
+
+    def contains(self, i):
+        if self.head is None:
+            print("list is empty")
+            return False
+        curr = self.head
+        while curr is not None:
+            if curr.item == i:
+                return True
+            else:
+                curr = curr.next
+        return False
+
+    def getIndexOf(self, item):
+        count = 0
+        temp = self.head
+        while temp.item != item:
+            if temp.next is None:
+                print("ITEM: ", item, " is not in the list")
+                return -1
+            count = count + 1
+            temp = temp.next
+        return count
+
+    def get(self, index):
+        count = 0
+        temp = self.head
+        if temp is None:
+            print(index, " is not here")
+            return None
+        while count != index:
+            if temp.next is None:
+                print(index, " is not here")
+                return None
+            count = count + 1
+            temp = temp.next
+        return temp.item
+
+    def getFirst(self):
+        return self.head.item
+
+    def getLast(self):
+        x = self.head
+        if self.head == None:
+            return
+        else:
+            while x.next is not None:
+                x = x.next
+            return x.item
+
+    def remove(self, index):
+        if index <= 1:
+            return None
+        count = 0
+        t = self.head
+        while count != index - 1:
+            if (t.next is not None):
+                count = count + 1
+                t = t.next
+            else:
+                break
+        t.next = t.next.next
+
+    def removeFirst(self):
+        t = self.head
+        if self.head == None:
+            return
+        self.head = t.next
+
+    def removeLast(self):
+        t = self.head
+        while t.next is not None:
+            if t.next.next is None:
+                t.next = None
+                break
+            t = t.next
+        t = None
+
+    def reverse(self):
+        prev = None
+        current = self.head
+        while (current is not None):
+            next = current.next
+            current.next = prev
+            prev = current
+            current = next
+        self.head = prev
+
+    def remove_duplicates(self):
+        current = second = self.head
+        while current is not None:
+            while second.next is not None:
+                if second.next.data == current.data:
+                    second.next = second.next.next
+                else:
+                    second = second.next
+            current = second = current.next
+
+
+
+    #initialize linked list
+linkedl = LinkedLists()
+linkedl.addFirst(8)
+linkedl.addFirst(5)
+linkedl.addLast(7)
+#linkedl.add(3,1)
+linkedl.delete(5)
+linkedl.add(2,9)
+linkedl.addLast(6)
+linkedl.addLast(1)
+linkedl.addLast(6)
+linkedl.remove_duplicates()
+#linkedl.reverse()
+linkedl.printl()
